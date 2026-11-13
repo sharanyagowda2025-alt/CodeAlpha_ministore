@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>MiniStore | Online Shopping</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  >
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+
+    <div class="logo">
+      <i class="fa-solid fa-bag-shopping"></i>
+      MiniStore
+    </div>
+
+    <div class="search-box">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search products..."
+      >
+
+      <button onclick="searchProducts()">
+        <i class="fa-solid fa-search"></i>
+      </button>
+    </div>
+
+    <div class="nav-actions">
+
+      <button onclick="openAuth()" class="login-btn">
+        <i class="fa-regular fa-user"></i>
+        <span id="userName">Login</span>
+      </button>
+
+      <button onclick="toggleCart()" class="cart-btn">
+        <i class="fa-solid fa-cart-shopping"></i>
+        Cart
+        <span id="cartCount">0</span>
+      </button>
+
+    </div>
+
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+
+    <div class="hero-content">
+
+      <span class="hero-label">
+        NEW COLLECTION 2026
+      </span>
+
+      <h1>
+        Discover Your<br>
+        <span>Perfect Style</span>
+      </h1>
+
+      <p>
+        Explore amazing products at unbeatable prices.
+        Shop your favorite products today.
+      </p>
+
+      <button
+        class="shop-btn"
+        onclick="document.getElementById('productsSection').scrollIntoView({behavior:'smooth'})"
+      >
+        Shop Now
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+
+    </div>
+
+    <div class="hero-image">
+      <img
+        src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=900&q=80"
+        alt="Shopping collection"
+      >
+    </div>
+
+  </section>
+
+  <!-- CATEGORIES -->
+  <section class="categories">
+
+    <h2>Shop by Category</h2>
+
+    <div class="category-buttons">
+
+      <button class="category active" onclick="filterCategory('All',this)">
+        <i class="fa-solid fa-border-all"></i>
+        All
+      </button>
+
+      <button class="category" onclick="filterCategory('Electronics',this)">
+        <i class="fa-solid fa-laptop"></i>
+        Electronics
+      </button>
+
+      <button class="category" onclick="filterCategory('Fashion',this)">
+        <i class="fa-solid fa-shirt"></i>
+        Fashion
+      </button>
+
+      <button class="category" onclick="filterCategory('Accessories',this)">
+        <i class="fa-solid fa-glasses"></i>
+        Accessories
+      </button>
+
+    </div>
+
+  </section>
+
+  <!-- PRODUCTS -->
+  <section class="products-section" id="productsSection">
+
+    <div class="section-header">
+
+      <div>
+        <h2>Featured Products</h2>
+        <p>Discover our best selling products</p>
+      </div>
+
+      <span id="productCount"></span>
+
+    </div>
+
+    <div id="products" class="product-grid"></div>
+
+  </section>
+
+  <!-- CART SIDEBAR -->
+  <div class="overlay" id="overlay" onclick="toggleCart()"></div>
+
+  <aside class="cart-sidebar" id="cartSidebar">
+
+    <div class="cart-header">
+
+      <h2>
+        <i class="fa-solid fa-cart-shopping"></i>
+        Your Cart
+      </h2>
+
+      <button onclick="toggleCart()" class="close-btn">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+    </div>
+
+    <div id="cartItems"></div>
+
+    <div class="cart-footer">
+
+      <div class="cart-total">
+        <span>Total:</span>
+        <strong id="cartTotal">₹0</strong>
+      </div>
+
+      <button class="checkout-btn" onclick="checkout()">
+        Proceed to Checkout
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+
+    </div>
+
+  </aside>
+
+  <!-- AUTH MODAL -->
+  <div class="modal" id="authModal">
+
+    <div class="modal-content">
+
+      <button class="close-modal" onclick="closeAuth()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <h2 id="authTitle">Welcome Back!</h2>
+
+      <p id="authSubtitle">
+        Login to your account
+      </p>
+
+      <form id="authForm">
+
+        <input
+          type="text"
+          id="authName"
+          placeholder="Full Name"
+          style="display:none"
+        >
+
+        <input
+          type="email"
+          id="authEmail"
+          placeholder="Email Address"
+          required
+        >
+
+        <input
+          type="password"
+          id="authPassword"
+          placeholder="Password"
+          required
+          minlength="6"
+        >
+
+        <button type="submit" class="auth-submit">
+          Login
+        </button>
+
+      </form>
+
+      <p class="auth-switch">
+        <span id="switchText">Don't have an account?</span>
+
+        <button onclick="switchAuth()" id="switchButton">
+          Register
+        </button>
+      </p>
+
+    </div>
+
+  </div>
+
+  <!-- PRODUCT DETAILS MODAL -->
+  <div class="modal" id="productModal">
+
+    <div class="modal-content product-modal-content">
+
+      <button class="close-modal" onclick="closeProductModal()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div id="productDetails"></div>
+
+    </div>
+
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast"></div>
+
+  <!-- FOOTER -->
+  <footer>
+
+    <div class="footer-logo">
+      <i class="fa-solid fa-bag-shopping"></i>
+      MiniStore
+    </div>
+
+    <p>
+      Your favorite online shopping destination.
+    </p>
+
+    <p class="copyright">
+      © 2026 MiniStore. All rights reserved.
+    </p>
+
+  </footer>
+
+  <script src="app.js"></script>
+
+</body>
+</html>
